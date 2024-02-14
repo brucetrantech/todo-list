@@ -1,4 +1,4 @@
-import { themes } from "commons";
+import themes from "@/commons/themes";
 import { useMemo } from "react";
 import {
     GestureResponderEvent,

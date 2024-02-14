@@ -1,8 +1,11 @@
-import { contents, images, screens, themes } from "commons";
-import { YTLayout } from "cores";
 import { useEffect } from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
-import apis from "../storages/apis";
+import contents from "@/commons/contents";
+import images from "@/commons/images";
+import screens from "@/commons/screens";
+import themes from "@/commons/themes";
+import { YTLayout } from "@/cores";
+import apis from "@/storages/apis";
 
 type SplashProps = {
 	navigation: any;

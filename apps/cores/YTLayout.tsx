@@ -1,4 +1,4 @@
-import { images } from "commons";
+import images from "@/commons/images";
 import { ImageBackground, SafeAreaView, ScrollView, StatusBar, StyleSheet, View } from "react-native";
 
 type YTLayoutProps = {

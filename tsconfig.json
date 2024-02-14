@@ -3,11 +3,14 @@
   "compilerOptions": {
     "baseUrl": "./apps/",
     "paths": {
-      "assets": ["assets"],
-      "commons": ["commons"],
-      "cores": ["cores"],
-      "screens": ["screens"],
-      "storages": ["storages"],
+      "@/*": ["./*"]
     }
+    // "paths": {
+    //   "assets": ["assets"],
+    //   "commons": ["commons"],
+    //   "cores": ["cores"],
+    //   "screens": ["screens"],
+    //   "storages": ["storages"],
+    // }
   }
 }

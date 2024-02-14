@@ -7,7 +7,6 @@
 
 import React, { useCallback, useState } from 'react';
 import {
-	Dimensions,
 	Image,
 	SectionList,
 	StyleSheet,
@@ -15,9 +14,12 @@ import {
 	TextInput,
 	View,
 } from 'react-native';
-import { YTButton, YTLayout } from 'cores';
-import { contents, images, screens, themes } from 'commons';
-import apis from 'storages/apis';
+import { YTButton, YTLayout } from '@/cores';
+import contents from "@/commons/contents";
+import images from "@/commons/images";
+import screens from "@/commons/screens";
+import themes from "@/commons/themes";
+import apis from '@/storages/apis';
 
 type TaskType = {
 	task: string;
@@ -104,7 +106,7 @@ export default function Home({ navigation }: HomeProps) {
 	}), [task, setTask])
 
 	const onCreatTask = useCallback(() => {
-
+		
 	}, []);
 
 	const onSignOut = useCallback(() => {

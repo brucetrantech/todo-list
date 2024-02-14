@@ -1,6 +1,6 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { screens } from 'commons';
+import screens from '@/commons/screens';
 import Home from './Home';
 import SignIn from './SignIn';
 import Splash from './Splash';

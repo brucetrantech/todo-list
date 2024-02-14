@@ -1,8 +1,11 @@
-import { Image, StyleSheet, Text, TextInput, View } from "react-native";
-import { YTButton, YTLayout } from "cores";
-import { contents, images, screens, themes } from "commons";
 import { useState } from "react";
-import apis from "../storages/apis";
+import { Image, StyleSheet, Text, TextInput, View } from "react-native";
+import { YTButton, YTLayout } from "@/cores";
+import contents from "@/commons/contents";
+import images from "@/commons/images";
+import screens from "@/commons/screens";
+import themes from "@/commons/themes";
+import apis from "@/storages/apis";
 
 type SignInProps = {
 	navigation: any;

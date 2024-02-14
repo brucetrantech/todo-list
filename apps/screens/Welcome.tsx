@@ -1,6 +1,9 @@
 import { Image, StyleSheet, Text, View } from "react-native";
-import { contents, images, screens, themes } from "commons";
-import { YTButton, YTLayout } from "cores";
+import contents from "@/commons/contents";
+import images from "@/commons/images";
+import screens from "@/commons/screens";
+import themes from "@/commons/themes";
+import { YTButton, YTLayout } from "@/cores";
 
 type WelcomeProps = {
 	navigation: any;
