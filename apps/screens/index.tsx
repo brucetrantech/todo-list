@@ -18,7 +18,7 @@ export default function MainScreen() {
         initialRouteName={screens.SPLASH}
       >
         <Stack.Screen name={screens.SPLASH} component={Splash} />
-        <Stack.Screen name={screens.WELCOME} component={Welcome} />
+        <Stack.Screen name={screens.WELCOME} component={Welcome} options={{ gestureEnabled: false }} />
         <Stack.Screen name={screens.SIGNIN} component={SignIn} />
         <Stack.Screen name={screens.HOME} component={Home} options={{ gestureEnabled: false }} />
       </Stack.Navigator>

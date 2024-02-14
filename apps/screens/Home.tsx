@@ -16,7 +16,8 @@ import {
 	View,
 } from 'react-native';
 import { YTButton, YTLayout } from 'cores';
-import { contents, images, themes } from 'commons';
+import { contents, images, screens, themes } from 'commons';
+import apis from 'storages/apis';
 
 type TaskType = {
 	task: string;
@@ -106,6 +107,14 @@ export default function Home({ navigation }: HomeProps) {
 
 	}, []);
 
+	const onSignOut = useCallback(() => {
+		apis.removeCurrentUser()
+			.then((result) => {
+				if (!result) return;
+				navigation.navigate(screens.WELCOME)
+			});
+	}, [navigation]);
+
 	return (
 		<>
 			<YTLayout>
@@ -115,9 +124,17 @@ export default function Home({ navigation }: HomeProps) {
 						style={styles.image}
 						resizeMode="contain"
 					/>
-					<View style={styles.welcome}>
-						<Text style={styles.title}>{contents.WELCOME}</Text>
-						<Text style={[styles.title, styles.bold]}>{` ${"Bruce"}!`}</Text>
+					<View>
+						<View style={styles.welcome}>
+							<Text style={styles.title}>{contents.WELCOME}</Text>
+							<Text style={[styles.title, styles.bold]}>{` ${"Bruce"}!`}</Text>
+						</View>
+						<YTButton
+							variant="text"
+							title={contents.SIGN_OUT}
+							onPress={onSignOut}
+							style={styles.signOut}
+						/>
 					</View>
 				</View>
 				<View style={styles.form}>
@@ -258,5 +275,8 @@ const styles = StyleSheet.create({
 		borderStyle: 'solid',
 		backgroundColor: themes.color.light,
 		paddingTop: 12,
+	},
+	signOut: {
+		alignSelf: 'flex-end'
 	}
 });

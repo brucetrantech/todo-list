@@ -1,6 +1,8 @@
 import { Image, StyleSheet, Text, TextInput, View } from "react-native";
 import { YTButton, YTLayout } from "cores";
 import { contents, images, screens, themes } from "commons";
+import { useState } from "react";
+import apis from "../storages/apis";
 
 type SignInProps = {
 	navigation: any;
@@ -8,8 +10,15 @@ type SignInProps = {
 
 export default function SignIn({ navigation }: SignInProps) {
 
+	const [email, setEmail] = useState<string | undefined>(undefined);
+
 	const onSignIn = () => {
-		navigation.navigate(screens.HOME);
+		if (!email) return;
+		apis.setCurrentUserByEmail(email)
+			.then((result) => {
+				if (!result) return;
+				navigation.navigate(screens.HOME);
+			})
 	}
 
 	return (
@@ -22,18 +31,19 @@ export default function SignIn({ navigation }: SignInProps) {
 					</View>
 					<View>
 						<TextInput
-							placeholder={contents.ENTER_NAME}
-							style={styles.input}
-						/>
-						<View style={styles.line} />
-						<TextInput
 							placeholder={contents.ENTER_EMAIL}
 							style={styles.input}
+							value={email}
+							onChangeText={setEmail}
 						/>
 						<View style={styles.line} />
 						<View style={styles.line} />
 						<View style={styles.line} />
-						<YTButton title={contents.SIGN_IN} onPress={onSignIn} />
+						<YTButton
+							title={contents.SIGN_IN}
+							onPress={onSignIn}
+							disabled={!email}
+						/>
 					</View>
 				</View>
 			</View>

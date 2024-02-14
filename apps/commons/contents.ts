@@ -6,6 +6,7 @@ export default {
     NO_ACCOUNT: 'Dont have an account?',
     SIGN_IN: 'Sign In',
     SIGN_UP: 'Sign Up',
+    SIGN_OUT: 'Sign out',
     WELCOME_ONBOARD: 'Welcome Onboard!',
     LET_START: 'Let\'s help you meet up your task',
     BACK: 'Back',

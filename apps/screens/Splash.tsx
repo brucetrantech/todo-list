@@ -1,7 +1,8 @@
-import { contents, images, themes } from "commons";
+import { contents, images, screens, themes } from "commons";
 import { YTLayout } from "cores";
 import { useEffect } from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
+import apis from "../storages/apis";
 
 type SplashProps = {
 	navigation: any;
@@ -10,10 +11,11 @@ type SplashProps = {
 export default function Splash({ navigation }: SplashProps) {
 
 	useEffect(() => {
-		setTimeout(() => {
-			navigation.navigate('Welcome');
-		}, 1000);
-	}, [])
+		apis.getCurrentUser().then(email => {
+			const destScreen = email ? screens.HOME : screens.WELCOME;
+			navigation.navigate(destScreen);
+		})
+	}, [navigation])
 
 	return (
 		<YTLayout>

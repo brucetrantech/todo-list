@@ -21,6 +21,10 @@ module.exports = {
             rootPathSuffix: './apps/screens',
             rootPathPrefix: 'screens',
           },
+          {
+            rootPathSuffix: './apps/storages',
+            rootPathPrefix: 'storages',
+          },
         ],
       },
     ],
