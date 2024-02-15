@@ -1,5 +1,5 @@
-import { useCallback, useState } from "react";
-import { Image, StyleSheet, Text, TextInput, View } from "react-native";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { Image, Keyboard, KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, TouchableWithoutFeedback, View } from "react-native";
 import { YTButton, YTLayout } from "@/cores";
 import contents from "@/commons/contents";
 import images from "@/commons/images";
@@ -24,6 +24,8 @@ export default function SignIn({ navigation }: SignInProps) {
 	const [error, setError] = useState<string | null>(null);
 	const dispatch = useAppDispatch();
 
+	let inputRef = useRef<any>();
+
 	const onSignIn = useCallback(() => {
 		if (!email) return;
 		dispatch(signIn(email)).unwrap().then(res => {
@@ -45,38 +47,54 @@ export default function SignIn({ navigation }: SignInProps) {
 		setError(contents.ERROR_EMAIL_FORMAT)
 	}, [error, setEmail, setError]);
 
+	useEffect(() => {
+		if (inputRef?.current) {
+			inputRef.current?.focus();
+		}
+	}, [inputRef]);
+
 	return (
 		<YTLayout>
-			<View style={styles.layout}>
-				<View style={styles.form}>
-					<View style={styles.header}>
-						<Text style={styles.title}>{contents.WELCOME_ONBOARD}</Text>
-						<Image source={images.back} resizeMode="contain" />
-					</View>
-					<View>
-						<TextInput
-							placeholder={contents.ENTER_EMAIL}
-							style={styles.input}
-							value={email}
-							onChangeText={onChangeEmail}
-							focusable
-						/>
-						<View style={styles.errorView}>
-							{error ? (
-								<Text style={styles.error}>{error || 'Error message'}</Text>
-							) : null}
+			<KeyboardAvoidingView
+				style={{ flex: 1 }}
+				behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
+				keyboardVerticalOffset={-120}
+			>
+				<TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+					<View style={styles.layout}>
+						<View style={styles.form}>
+							<View style={styles.header}>
+								<Text style={styles.title}>{contents.WELCOME_ONBOARD}</Text>
+								<Image source={images.back} resizeMode="contain" />
+							</View>
+							<View>
+								<TextInput
+									ref={inputRef}
+									placeholder={contents.ENTER_EMAIL}
+									style={styles.input}
+									value={email}
+									onChangeText={onChangeEmail}
+									onSubmitEditing={onSignIn}
+									autoCapitalize="none"
+								/>
+								<View style={styles.errorView}>
+									{error ? (
+										<Text style={styles.error}>{error || 'Error message'}</Text>
+									) : null}
+								</View>
+								<View style={styles.line} />
+								<View style={styles.line} />
+								<View style={styles.line} />
+								<YTButton
+									title={contents.SIGN_IN}
+									onPress={onSignIn}
+									disabled={!email || !!error}
+								/>
+							</View>
 						</View>
-						<View style={styles.line} />
-						<View style={styles.line} />
-						<View style={styles.line} />
-						<YTButton
-							title={contents.SIGN_IN}
-							onPress={onSignIn}
-							disabled={!email}
-						/>
 					</View>
-				</View>
-			</View>
+				</TouchableWithoutFeedback>
+			</KeyboardAvoidingView>
 		</YTLayout>
 	)
 }

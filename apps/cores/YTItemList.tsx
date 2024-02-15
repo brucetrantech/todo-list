@@ -29,7 +29,7 @@ function RightAction ({ isDone, onUpdate, onDelete }: RightActonProps) {
             isDone ? { width: 50 } : null,
         ]}>
             {isDone ? null : (
-                <YTButton title="U" color="cyan" onPress={onUpdate} />
+                <YTButton title="E" color="cyan" onPress={onUpdate} />
             )}
             <YTButton title="X" color="error" onPress={onDelete} />
         </View>

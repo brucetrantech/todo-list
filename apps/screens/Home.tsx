@@ -8,10 +8,14 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import {
 	Image,
+	Keyboard,
+	KeyboardAvoidingView,
+	Platform,
 	SectionList,
 	StyleSheet,
 	Text,
 	TextInput,
+	TouchableWithoutFeedback,
 	View,
 } from 'react-native';
 import { YTButton, YTItemList, YTLayout } from '@/cores';
@@ -138,64 +142,74 @@ export default function Home({ navigation }: HomeProps) {
 	return (
 		<>
 			<YTLayout>
-				<View style={styles.header}>
-					<Image
-						source={images.homeheader}
-						style={styles.image}
-						resizeMode="contain"
-					/>
-					<View>
-					<View style={styles.welcome}>
-						<Text style={styles.title}>{contents.WELCOME}</Text>
-						<Text style={[styles.title, styles.bold]}>{userEmail}</Text>
-						<YTButton
-							variant="text"
-							title={contents.SIGN_OUT}
-							onPress={onSignOut}
-							style={styles.signOut}
-						/>
-					</View>
-					</View>
-				</View>
-				<View style={styles.form}>
-					<TextInput
-						value={changedTask.id.trim() !== '' ? changedTask.task : task}
-						onChangeText={
-							(text: string) => changedTask.id.trim() !== ''
-								? setChangedTask({ ...changedTask, task: text })
-								: setTask(text)
-						}
-						placeholder={contents.CREATE_TASK}
-						style={styles.input}
-						multiline
-					/>
-					<YTButton title="+" onPress={onCreatTask} />
-				</View>
-				<View style={styles.body}>
-					<SectionList
-						sections={sectionData}
-						keyExtractor={(item) => `${item.created_at}`}
-						renderItem={({item, section}) => (
-							<YTItemList
-								data={item}
-								isDone={section.is_done}
-								onTickDone={onTickDone}
-								onUpdate={setChangedTask}
-								onDelete={(item) => onDelete(item, section.is_done)}
-							/>
-						)}
-						renderSectionHeader={({section: {title}}) => (
-							<View style={styles.sectionHeader}>
-								<Text style={styles.sectionTitle}>{title}</Text>
+				<KeyboardAvoidingView
+					style={{flex: 1}}
+					behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
+					keyboardVerticalOffset={-120}
+				>
+					<TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+						<>
+							<View style={styles.header}>
+								<Image
+									source={images.homeheader}
+									style={styles.image}
+									resizeMode="contain"
+								/>
+								<View>
+								<View style={styles.welcome}>
+									<Text style={styles.title}>{contents.WELCOME}</Text>
+									<Text style={[styles.title, styles.bold]}>{userEmail}</Text>
+									<YTButton
+										variant="text"
+										title={contents.SIGN_OUT}
+										onPress={onSignOut}
+										style={styles.signOut}
+									/>
+								</View>
+								</View>
 							</View>
-						)}
-						ListEmptyComponent={(
-							<View style={styles.emptyView}>
-								<Text style={styles.emptyText}>{contents.NO_TASK}</Text>
+							<View style={styles.form}>
+								<TextInput
+									value={changedTask.id.trim() !== '' ? changedTask.task : task}
+									onChangeText={
+										(text: string) => changedTask.id.trim() !== ''
+											? setChangedTask({ ...changedTask, task: text })
+											: setTask(text)
+									}
+									placeholder={contents.CREATE_TASK}
+									style={styles.input}
+									multiline
+								/>
+								<YTButton title="+" onPress={onCreatTask} />
 							</View>
-						)}
-					/>
-				</View>
+							<View style={styles.body}>
+								<SectionList
+									sections={sectionData}
+									keyExtractor={(item) => `${item.created_at}`}
+									renderItem={({item, section}) => (
+										<YTItemList
+											data={item}
+											isDone={section.is_done}
+											onTickDone={onTickDone}
+											onUpdate={setChangedTask}
+											onDelete={(item) => onDelete(item, section.is_done)}
+										/>
+									)}
+									renderSectionHeader={({section: {title}}) => (
+										<View style={styles.sectionHeader}>
+											<Text style={styles.sectionTitle}>{title}</Text>
+										</View>
+									)}
+									ListEmptyComponent={(
+										<View style={styles.emptyView}>
+											<Text style={styles.emptyText}>{contents.NO_TASK}</Text>
+										</View>
+									)}
+								/>
+							</View>
+						</>
+					</TouchableWithoutFeedback>
+				</KeyboardAvoidingView>
 			</YTLayout>
 		</>
 	);
