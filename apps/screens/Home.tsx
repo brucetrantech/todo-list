@@ -85,13 +85,13 @@ export default function Home({ navigation }: HomeProps) {
 		if (isDone) {
 			const updatedArchivedTasks = {
 				todo: userTasks.todo,
-				archived: userTasks.archived.filter(item => item.id === deletedTask.id),
+				archived: userTasks.archived.filter(item => item.id !== deletedTask.id),
 			} as UserTasks;
 			dispatch(setTasks(updatedArchivedTasks));
 			return;
 		}
 		const updatedTodoTasks = {
-			todo: userTasks.todo.filter(item => item.id === deletedTask.id),
+			todo: userTasks.todo.filter(item => item.id !== deletedTask.id),
 			archived: userTasks.archived,
 		} as UserTasks;
 		dispatch(setTasks(updatedTodoTasks));
@@ -177,6 +177,7 @@ export default function Home({ navigation }: HomeProps) {
 											: setTask(text)
 									}
 									placeholder={contents.CREATE_TASK}
+									placeholderTextColor={themes.color.secondaryNebula}
 									style={styles.input}
 									multiline
 								/>
@@ -279,6 +280,7 @@ const styles = StyleSheet.create({
 		borderStyle: 'solid',
 		backgroundColor: themes.color.light,
 		paddingTop: 12,
+		color: themes.color.dark,
 	},
 	signOut: {
 		alignSelf: 'flex-end',

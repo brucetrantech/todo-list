@@ -25,7 +25,6 @@
     + Handle get-tasks / set-tasks / remove-tasks / edit-tasks.
     + Swipe item list to open the options: Edit / Delete
     + Handle "done" item list in checkbox-circle.
-    + Refresh task list by scrolling top up
     + Open / Dismiss the keyboard when typing the new task.
 
 - Write unit-test with Jest

@@ -71,6 +71,7 @@ export default function SignIn({ navigation }: SignInProps) {
 								<TextInput
 									ref={inputRef}
 									placeholder={contents.ENTER_EMAIL}
+									placeholderTextColor={themes.color.secondaryNebula}
 									style={styles.input}
 									value={email}
 									onChangeText={onChangeEmail}
@@ -127,6 +128,7 @@ const styles = StyleSheet.create({
 		borderColor: themes.color.secondaryNebula,
 		borderStyle: 'solid',
 		backgroundColor: themes.color.light,
+		color: themes.color.dark,
 	},
 	errorView: {
 		height: 30,
