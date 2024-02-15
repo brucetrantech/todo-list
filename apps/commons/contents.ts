@@ -21,5 +21,6 @@ export default {
     ARCHIVED_TASKS: 'Archived Tasks',
     CREATE_TASK: 'Create new task today...',
     NO_TASK: 'You don\'t have any task here!',
+    ERROR_EMAIL_FORMAT: 'Your email is not correct formatted!',
     LOREMS: 'Lorem ipsum dolor sit amet, consectetur adipisicing. Maxime, tempore! Animi nemo aut atque, deleniti nihil dolorem repellendus.'
 }

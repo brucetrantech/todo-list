@@ -5,12 +5,5 @@
     "paths": {
       "@/*": ["./*"]
     }
-    // "paths": {
-    //   "assets": ["assets"],
-    //   "commons": ["commons"],
-    //   "cores": ["cores"],
-    //   "screens": ["screens"],
-    //   "storages": ["storages"],
-    // }
   }
 }

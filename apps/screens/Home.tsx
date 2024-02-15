@@ -5,7 +5,7 @@
  * @format
  */
 
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import {
 	Image,
 	SectionList,
@@ -14,63 +14,19 @@ import {
 	TextInput,
 	View,
 } from 'react-native';
-import { YTButton, YTLayout } from '@/cores';
+import { YTButton, YTItemList, YTLayout } from '@/cores';
 import contents from "@/commons/contents";
 import images from "@/commons/images";
 import screens from "@/commons/screens";
 import themes from "@/commons/themes";
-import apis from '@/storages/apis';
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { setTasks, signOut } from "@/redux/slices/tasks";
+import { shallowEqual } from "react-redux";
+import genUID from 'generate-unique-id';
+import { Task, UserTasks } from '@/storages/models';
 
-type TaskType = {
-	task: string;
-	is_done: boolean;
-	created_at: string;
-}
-
-const MOCK_DATAS = [
-	{
-		title: contents.DOING_TASKS,
-		is_done: false, 
-		data: [
-			{
-				task: 'Good morning',
-				is_done: false,
-				created_at: 'Jan, 24th 2024 08:34:12'
-			},
-			{
-				task: 'Good afternoon',
-				is_done: false,
-				created_at: 'Jan, 25th 2024 13:07:40'
-			},
-			{
-				task: 'Good evening',
-				is_done: false,
-				created_at: 'Jan, 26th 2024 20:22:03'
-			}
-		]
-	},
-	{
-		title: contents.ARCHIVED_TASKS,
-		is_done: true,
-		data: [
-			{
-				task: 'Archived task 1',
-				is_done: true,
-				created_at: 'Jan, 20th 2024 08:34:12'
-			},
-			{
-				task: 'Archived task 2',
-				is_done: true,
-				created_at: 'Jan, 21th 2024 13:07:40'
-			},
-			{
-				task: 'Archived task 3',
-				is_done: true,
-				created_at: 'Jan, 22th 2024 20:22:03'
-			}
-		]
-	}
-]
+const MAXIMUM_EMAIL_SHOWING = 12;
+const initialTask = { id: '', task: '', created_at: '' }
 
 type HomeProps = {
 	navigation: any;
@@ -90,32 +46,94 @@ function getCurrentDate () {
 		)
 }
 
-const initalTask: TaskType = {
-	task: '',
-	is_done: false,
-	created_at: getCurrentDate()
-};
-
 export default function Home({ navigation }: HomeProps) {
 
-	const [task, setTask] = useState<TaskType>(initalTask);
+	const [task, setTask] = useState<string>('');
+	const [changedTask, setChangedTask] = useState<Task>(initialTask);
+	const dispatch = useAppDispatch();
+	const [userEmail, userTasks] = useAppSelector(
+		state =>[
+			state.tasks.email.substring(0, MAXIMUM_EMAIL_SHOWING),
+			state.tasks.data,
+		],
+		shallowEqual,
+	);
 
-	const onChangeTask = useCallback((text: string) => setTask({
-		...task,
-		task: text,
-	}), [task, setTask])
+	const onTickDone = useCallback((doneTask: Task) => {
+		const updatedTasks = {
+			todo: userTasks.todo.filter(item => item.id !== doneTask.id),
+			archived: [doneTask, ...userTasks.archived],
+		} as UserTasks;
+		dispatch(setTasks(updatedTasks));
+	}, [userTasks, dispatch]);
+
+	const onUpdate = useCallback((updatedTask: Task) => {
+		const updatedTodoTasks = {
+			todo: userTasks.todo.map(item => item.id === updatedTask.id ? updatedTask : item),
+			archived: userTasks.archived,
+		} as UserTasks;
+		dispatch(setTasks(updatedTodoTasks))
+			.unwrap()
+			.then(() => setChangedTask(initialTask));
+	}, [userTasks, dispatch]);
+
+	const onDelete = useCallback((deletedTask: Task, isDone: boolean = false) => {
+		if (isDone) {
+			const updatedArchivedTasks = {
+				todo: userTasks.todo,
+				archived: userTasks.archived.filter(item => item.id === deletedTask.id),
+			} as UserTasks;
+			dispatch(setTasks(updatedArchivedTasks));
+			return;
+		}
+		const updatedTodoTasks = {
+			todo: userTasks.todo.filter(item => item.id === deletedTask.id),
+			archived: userTasks.archived,
+		} as UserTasks;
+		dispatch(setTasks(updatedTodoTasks));
+	}, [userTasks, dispatch]);
 
 	const onCreatTask = useCallback(() => {
-		
-	}, []);
+		if (changedTask.id.trim() !== '') {
+			// update task
+			return onUpdate(changedTask)
+		}
+		// new task
+		const newTask = {
+			id: genUID(),
+			task: task,
+			created_at: getCurrentDate()
+		};
+		const updatedTasks = {
+			todo: [newTask, ...userTasks.todo],
+			archived: userTasks.archived,
+		} as UserTasks;
+		dispatch(setTasks(updatedTasks))
+			.unwrap()
+			.then(() => setTask(''));
+	}, [userTasks, task, changedTask, onUpdate, dispatch]);
 
 	const onSignOut = useCallback(() => {
-		apis.removeCurrentUser()
-			.then((result) => {
-				if (!result) return;
-				navigation.navigate(screens.WELCOME)
-			});
-	}, [navigation]);
+		dispatch(signOut()).unwrap().then(res => {
+			if (!res) return;
+			navigation.navigate(screens.WELCOME)
+		})
+	}, [dispatch, navigation]);
+
+	const sectionData = useMemo(() => {
+		return [
+			{
+				title: contents.DOING_TASKS,
+				is_done: false, 
+				data: userTasks?.todo || []
+			},
+			{
+				title: contents.ARCHIVED_TASKS,
+				is_done: true, 
+				data: userTasks?.archived || []
+			}
+		]
+	}, [userTasks]);
 
 	return (
 		<>
@@ -127,10 +145,9 @@ export default function Home({ navigation }: HomeProps) {
 						resizeMode="contain"
 					/>
 					<View>
-						<View style={styles.welcome}>
-							<Text style={styles.title}>{contents.WELCOME}</Text>
-							<Text style={[styles.title, styles.bold]}>{` ${"Bruce"}!`}</Text>
-						</View>
+					<View style={styles.welcome}>
+						<Text style={styles.title}>{contents.WELCOME}</Text>
+						<Text style={[styles.title, styles.bold]}>{userEmail}</Text>
 						<YTButton
 							variant="text"
 							title={contents.SIGN_OUT}
@@ -138,11 +155,16 @@ export default function Home({ navigation }: HomeProps) {
 							style={styles.signOut}
 						/>
 					</View>
+					</View>
 				</View>
 				<View style={styles.form}>
 					<TextInput
-						value={task.task}
-						onChangeText={onChangeTask}
+						value={changedTask.id.trim() !== '' ? changedTask.task : task}
+						onChangeText={
+							(text: string) => changedTask.id.trim() !== ''
+								? setChangedTask({ ...changedTask, task: text })
+								: setTask(text)
+						}
 						placeholder={contents.CREATE_TASK}
 						style={styles.input}
 						multiline
@@ -151,39 +173,32 @@ export default function Home({ navigation }: HomeProps) {
 				</View>
 				<View style={styles.body}>
 					<SectionList
-						sections={MOCK_DATAS}
+						sections={sectionData}
 						keyExtractor={(item) => `${item.created_at}`}
-						renderItem={({item}) => (
-							<View style={styles.sectionItem}>
-								<View style={[
-									styles.circle,
-									item.is_done ? styles.circleDone : null,
-								]} />
-								<Text style={[
-									styles.sectionLabel,
-									item.is_done ? styles.linethrough : null
-								]}>{item.task}</Text>
-							</View>
+						renderItem={({item, section}) => (
+							<YTItemList
+								data={item}
+								isDone={section.is_done}
+								onTickDone={onTickDone}
+								onUpdate={setChangedTask}
+								onDelete={(item) => onDelete(item, section.is_done)}
+							/>
 						)}
-						renderSectionHeader={({section: {title, is_done}}) => (
+						renderSectionHeader={({section: {title}}) => (
 							<View style={styles.sectionHeader}>
 								<Text style={styles.sectionTitle}>{title}</Text>
 							</View>
 						)}
-						ListEmptyComponent={<EmptyTasks />}
+						ListEmptyComponent={(
+							<View style={styles.emptyView}>
+								<Text style={styles.emptyText}>{contents.NO_TASK}</Text>
+							</View>
+						)}
 					/>
 				</View>
 			</YTLayout>
 		</>
 	);
-}
-
-function EmptyTasks () {
-	return (
-		<View style={styles.emptyView}>
-			<Text style={styles.emptyText}>{contents.NO_TASK}</Text>
-		</View>
-	)
 }
 
 const styles = StyleSheet.create({
@@ -200,13 +215,12 @@ const styles = StyleSheet.create({
 	},
 	image: { height: 120 },
 	welcome: {
-		flexDirection: 'row',
-		alignItems: 'center',
 		paddingVertical: 12,
 	},
 	title: {
 		...themes.font.medium,
 		color: themes.color.primaryCyan,
+		textAlign: 'right',
 	},
 	bold: { fontWeight: '800' },
 	body: { flex: 1 },
@@ -222,33 +236,7 @@ const styles = StyleSheet.create({
 		...themes.font.largeBold,
 		color: themes.color.primaryCyan,
 	},
-	sectionItem: {
-		minHeight: 64,
-		width: '100%',
-		borderRadius: 12,
-		paddingVertical: 8,
-		paddingHorizontal: 12,
-		flexDirection: 'row',
-		alignItems: 'center',
-		backgroundColor: themes.color.light,
-		marginBottom: 12,
-	},
-	circle: {
-		height: 24,
-		width: 24,
-		borderRadius: 12,
-		borderColor: themes.color.primaryCyan,
-		borderWidth: 4,
-		backgroundColor: themes.color.light,
-		marginRight: 12,
-	},
-	circleDone: {
-		backgroundColor: themes.color.primaryCyan,
-	},
-	sectionLabel: themes.font.normal,
-	linethrough: {
-		textDecorationLine: 'line-through'
-	},
+	
 	emptyView: {
 		minHeight: 300,
 		width: '100%',
@@ -279,6 +267,7 @@ const styles = StyleSheet.create({
 		paddingTop: 12,
 	},
 	signOut: {
-		alignSelf: 'flex-end'
+		alignSelf: 'flex-end',
+		marginTop: 8,
 	}
 });

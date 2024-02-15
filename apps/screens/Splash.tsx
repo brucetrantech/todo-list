@@ -5,7 +5,8 @@ import images from "@/commons/images";
 import screens from "@/commons/screens";
 import themes from "@/commons/themes";
 import { YTLayout } from "@/cores";
-import apis from "@/storages/apis";
+import { useAppDispatch } from "@/redux/hooks";
+import { getCurrentUser } from "@/redux/slices/tasks";
 
 type SplashProps = {
 	navigation: any;
@@ -13,12 +14,14 @@ type SplashProps = {
 
 export default function Splash({ navigation }: SplashProps) {
 
+	const dispatch = useAppDispatch();
+
 	useEffect(() => {
-		apis.getCurrentUser().then(email => {
-			const destScreen = email ? screens.HOME : screens.WELCOME;
+		dispatch(getCurrentUser()).unwrap().then((res) => {
+			const destScreen = res ? screens.HOME : screens.WELCOME;
 			navigation.navigate(destScreen);
 		})
-	}, [navigation])
+	}, [navigation, dispatch])
 
 	return (
 		<YTLayout>

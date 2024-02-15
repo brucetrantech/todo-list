@@ -3,6 +3,7 @@ import { UserTasks } from './models';
 
 /**************** Manage the current user ****************/
 const CURRENT_USER_KEY = 'current-user';
+const initUserTasks = { todo: [], archived: [] } as UserTasks;
 
 function setCurrentUserByEmail (email: string): Promise<boolean> {
     return AsyncStorage.setItem(CURRENT_USER_KEY, email)
@@ -13,11 +14,12 @@ function setCurrentUserByEmail (email: string): Promise<boolean> {
         })
 }
 
-function getCurrentUser (): Promise<string | null> {
+function getCurrentUser (): Promise<string> {
     return AsyncStorage.getItem(CURRENT_USER_KEY)
+        .then(res => res || '')
         .catch(e => {
             console.error(e);
-            return null;
+            return '';
         })
 }
 
@@ -40,19 +42,20 @@ function setTasksByEmail (email: string, tasks: UserTasks) {
         })
 }
 
-function getTasksByEMail (email: string): Promise<UserTasks | null> {
+function getTasksByEMail (email: string): Promise<UserTasks> {
     return AsyncStorage.getItem(email)
         .then(parsedTasks => {
-            if (!parsedTasks) return null;
+            if (!parsedTasks) return initUserTasks;
             try {
-                return JSON.parse(parsedTasks) as UserTasks;
+                const res = JSON.parse(parsedTasks) as UserTasks;
+                return res;
             } catch (err: any) {
                 throw new Error(err);
             }
         })
         .catch(e => {
             console.error(e);
-            return null;
+            return initUserTasks;
         })
 }
 

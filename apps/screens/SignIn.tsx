@@ -1,28 +1,49 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { Image, StyleSheet, Text, TextInput, View } from "react-native";
 import { YTButton, YTLayout } from "@/cores";
 import contents from "@/commons/contents";
 import images from "@/commons/images";
 import screens from "@/commons/screens";
 import themes from "@/commons/themes";
-import apis from "@/storages/apis";
+import { useAppDispatch } from "@/redux/hooks";
+import { signIn } from "@/redux/slices/tasks";
 
 type SignInProps = {
 	navigation: any;
 };
 
+function validatedEmail (email: string): boolean {
+	if (!email || email.trim() == '') return true;
+	const emailRegex = new RegExp(/^[A-Za-z0-9_!#$%&'*+\/=?`{|}~^.-]+@[A-Za-z0-9.-]+$/, "gm");
+	return emailRegex.test(email);
+}
+
 export default function SignIn({ navigation }: SignInProps) {
 
 	const [email, setEmail] = useState<string | undefined>(undefined);
+	const [error, setError] = useState<string | null>(null);
+	const dispatch = useAppDispatch();
 
-	const onSignIn = () => {
+	const onSignIn = useCallback(() => {
 		if (!email) return;
-		apis.setCurrentUserByEmail(email)
-			.then((result) => {
-				if (!result) return;
-				navigation.navigate(screens.HOME);
-			})
-	}
+		dispatch(signIn(email)).unwrap().then(res => {
+			if (!res) return;
+			navigation.navigate(screens.HOME);
+		})
+	}, [dispatch, email, navigation]);
+
+	const onChangeEmail = useCallback((text: string) => {
+		setEmail(text);
+		if (!text || text.trim() === '') {
+			if (error) setError(null);
+			return;
+		}
+		if (validatedEmail(text)) {
+			setError(null);
+			return;
+		}
+		setError(contents.ERROR_EMAIL_FORMAT)
+	}, [error, setEmail, setError]);
 
 	return (
 		<YTLayout>
@@ -37,8 +58,14 @@ export default function SignIn({ navigation }: SignInProps) {
 							placeholder={contents.ENTER_EMAIL}
 							style={styles.input}
 							value={email}
-							onChangeText={setEmail}
+							onChangeText={onChangeEmail}
+							focusable
 						/>
+						<View style={styles.errorView}>
+							{error ? (
+								<Text style={styles.error}>{error || 'Error message'}</Text>
+							) : null}
+						</View>
 						<View style={styles.line} />
 						<View style={styles.line} />
 						<View style={styles.line} />
@@ -83,4 +110,13 @@ const styles = StyleSheet.create({
 		borderStyle: 'solid',
 		backgroundColor: themes.color.light,
 	},
+	errorView: {
+		height: 30,
+		width: '100%',
+		justifyContent: 'center',
+	},
+	error: {
+		...themes.font.normal,
+		color: themes.color.error,
+	}
 })
