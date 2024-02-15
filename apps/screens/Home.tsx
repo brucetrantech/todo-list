@@ -41,7 +41,7 @@ function getCurrentDate () {
 		.toLocaleString(
 			'en-US', {
 				year: 'numeric',
-				month: 'long',
+				month: 'short',
 				day: 'numeric',
 				hour: 'numeric',
 				minute: 'numeric',
@@ -249,7 +249,7 @@ const styles = StyleSheet.create({
 	},
 	sectionTitle: {
 		...themes.font.largeBold,
-		color: themes.color.primaryCyan,
+		color: themes.color.primaryTiger,
 	},
 	
 	emptyView: {
