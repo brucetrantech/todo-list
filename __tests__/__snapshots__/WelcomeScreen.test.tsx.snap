@@ -1,0 +1,321 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<View
+  accessibilityIgnoresInvertColors={true}
+  style={
+    {
+      "flex": 1,
+    }
+  }
+>
+  <Image
+    source={
+      {
+        "testUri": "../../../apps/assets/images/background.png",
+      }
+    }
+    style={
+      [
+        {
+          "bottom": 0,
+          "left": 0,
+          "position": "absolute",
+          "right": 0,
+          "top": 0,
+        },
+        {
+          "height": undefined,
+          "width": undefined,
+        },
+        undefined,
+      ]
+    }
+  />
+  <RCTSafeAreaView
+    style={
+      {
+        "flex": 1,
+      }
+    }
+  >
+    <View
+      style={
+        {
+          "flex": 1,
+          "paddingHorizontal": 24,
+        }
+      }
+    >
+      <View
+        style={
+          {
+            "flex": 1,
+            "justifyContent": "center",
+          }
+        }
+      >
+        <Image
+          resizeMode="contain"
+          source={
+            {
+              "testUri": "../../../apps/assets/images/welcome.png",
+            }
+          }
+        />
+        <Text
+          style={
+            {
+              "color": "#000000",
+              "fontFamily": "Poppins-Medium",
+              "fontSize": 14,
+              "fontWeight": "800",
+              "paddingBottom": 20,
+              "paddingTop": 40,
+              "textAlign": "center",
+            }
+          }
+        >
+          Get things done with todo - Your Tasks
+        </Text>
+        <Text
+          style={
+            {
+              "color": "#3E3E3E",
+              "fontFamily": "Poppins-Medium",
+              "fontSize": 12,
+              "fontWeight": "500",
+              "paddingBottom": 80,
+              "textAlign": "center",
+            }
+          }
+        >
+          Lorem ipsum dolor sit amet, consectetur adipisicing. Maxime, tempore! Animi nemo aut atque, deleniti nihil dolorem repellendus.
+        </Text>
+        <View
+          accessibilityState={
+            {
+              "busy": undefined,
+              "checked": undefined,
+              "disabled": false,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
+            }
+          }
+          accessible={true}
+          collapsable={false}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            {
+              "alignItems": "center",
+              "backgroundColor": "#55847A",
+              "borderColor": "#55847A",
+              "borderRadius": 8,
+              "borderStyle": "solid",
+              "borderWidth": 1,
+              "flexDirection": "row",
+              "justifyContent": "center",
+              "minHeight": 42,
+              "minWidth": 42,
+              "opacity": 1,
+            }
+          }
+        >
+          <Text
+            style={
+              [
+                {
+                  "color": "#FFFFFF",
+                  "fontFamily": "Poppins-Medium",
+                  "fontSize": 14,
+                  "fontWeight": "500",
+                },
+                {
+                  "color": "#FFFFFF",
+                },
+              ]
+            }
+          >
+            Get started
+          </Text>
+        </View>
+      </View>
+    </View>
+  </RCTSafeAreaView>
+</View>
+`;
+
+exports[`renders snapshot correctly 1`] = `
+<View
+  accessibilityIgnoresInvertColors={true}
+  style={
+    {
+      "flex": 1,
+    }
+  }
+>
+  <Image
+    source={
+      {
+        "testUri": "../../../apps/assets/images/background.png",
+      }
+    }
+    style={
+      [
+        {
+          "bottom": 0,
+          "left": 0,
+          "position": "absolute",
+          "right": 0,
+          "top": 0,
+        },
+        {
+          "height": undefined,
+          "width": undefined,
+        },
+        undefined,
+      ]
+    }
+  />
+  <RCTSafeAreaView
+    style={
+      {
+        "flex": 1,
+      }
+    }
+  >
+    <View
+      style={
+        {
+          "flex": 1,
+          "paddingHorizontal": 24,
+        }
+      }
+    >
+      <View
+        style={
+          {
+            "flex": 1,
+            "justifyContent": "center",
+          }
+        }
+      >
+        <Image
+          resizeMode="contain"
+          source={
+            {
+              "testUri": "../../../apps/assets/images/welcome.png",
+            }
+          }
+        />
+        <Text
+          style={
+            {
+              "color": "#000000",
+              "fontFamily": "Poppins-Medium",
+              "fontSize": 14,
+              "fontWeight": "800",
+              "paddingBottom": 20,
+              "paddingTop": 40,
+              "textAlign": "center",
+            }
+          }
+        >
+          Get things done with todo - Your Tasks
+        </Text>
+        <Text
+          style={
+            {
+              "color": "#3E3E3E",
+              "fontFamily": "Poppins-Medium",
+              "fontSize": 12,
+              "fontWeight": "500",
+              "paddingBottom": 80,
+              "textAlign": "center",
+            }
+          }
+        >
+          Lorem ipsum dolor sit amet, consectetur adipisicing. Maxime, tempore! Animi nemo aut atque, deleniti nihil dolorem repellendus.
+        </Text>
+        <View
+          accessibilityState={
+            {
+              "busy": undefined,
+              "checked": undefined,
+              "disabled": false,
+              "expanded": undefined,
+              "selected": undefined,
+            }
+          }
+          accessibilityValue={
+            {
+              "max": undefined,
+              "min": undefined,
+              "now": undefined,
+              "text": undefined,
+            }
+          }
+          accessible={true}
+          collapsable={false}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            {
+              "alignItems": "center",
+              "backgroundColor": "#55847A",
+              "borderColor": "#55847A",
+              "borderRadius": 8,
+              "borderStyle": "solid",
+              "borderWidth": 1,
+              "flexDirection": "row",
+              "justifyContent": "center",
+              "minHeight": 42,
+              "minWidth": 42,
+              "opacity": 1,
+            }
+          }
+        >
+          <Text
+            style={
+              [
+                {
+                  "color": "#FFFFFF",
+                  "fontFamily": "Poppins-Medium",
+                  "fontSize": 14,
+                  "fontWeight": "500",
+                },
+                {
+                  "color": "#FFFFFF",
+                },
+              ]
+            }
+          >
+            Get started
+          </Text>
+        </View>
+      </View>
+    </View>
+  </RCTSafeAreaView>
+</View>
+`;
