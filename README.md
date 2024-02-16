@@ -1,10 +1,23 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# Todo App: YourTasks
+![logo](./apps/assets/images/logofull.png)
+
+This is the small project built by [**React Native**](https://reactnative.dev) using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+
+This mobile apps can be actived on both iOS and Android platforms.
 
 # Getting Started
 
 >**Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
 
-## Step 1: Start the Metro Server
+## Step 1: Install and start metro server
+
+```bash
+# install easlily with using npm
+npm i
+
+# or yarn
+yarn
+```
 
 First, you will need to start **Metro**, the JavaScript _bundler_ that ships _with_ React Native.
 
@@ -46,34 +59,44 @@ If everything is set up _correctly_, you should see your new app running in your
 
 This is one way to run your app — you can also run it directly from within Android Studio and Xcode respectively.
 
-## Step 3: Modifying your App
+## Step 3: Project Structure
 
-Now that you have successfully run the app, let's modify it.
+This project used some main libraries to build the structure from the scratch:
 
-1. Open `App.tsx` in your text editor of choice and edit some lines.
-2. For **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Developer Menu** (<kbd>Ctrl</kbd> + <kbd>M</kbd> (on Window and Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (on macOS)) to see your changes!
+- `React Navigation` (version v6.x): Handle the navigation for all screens.
+- `Redux Toolkit` (version v2.x): Handle the state management in the project.
+- `AsysnStorage`: it is used to save the local data in the user's device. And it is designed as the api with full services: Create / Update / Delete / Retrieve in this project.
+- `Reanimated` (version v3.x) and `Gesture Handler` (version v2.x): it is used to get the simple gesture to swipe the actions (update & delete).
 
-   For **iOS**: Hit <kbd>Cmd ⌘</kbd> + <kbd>R</kbd> in your iOS Simulator to reload the app and see your changes!
+The structure:
 
-## Congratulations! :tada:
+```bash
+|- index.js
+|---- android/ # native builder for Android platform
+|---- ios/ # native builder for iOS platform
+|---- __tests__/ # unit tests are here
+|---- jest/setup.js # jest file for setting
+|---- babel.config.js # set up babel config to the project
+|---- tsconfig.json # set up typescript config to the project
+|---- react-native.config.js # set up to access the assets data (images, fonts) in the project
+|---- apps/ # source code is here
+      | ---- assets/ # store the assets files as images and fonts
+      | ---- commons/ # configure the text-contents, retrieving images, screen names and theme of the project
+      | ---- cores/ # Pure UI components will be created and used from here
+      | ---- redux/ # Configure the state management with Redux toolkit
+      | ---- screens/ # define all screens using in the project
+      | ---- storages/ # define all services using with AsyncStorage.
+      | ---- App.tsx # Main component in the project
+```
 
-You've successfully run and modified your React Native App. :partying_face:
+## Step 4: Design Figma
 
-### Now what?
+This Figma design is the open source in Figma community, and we could adjust some details to make sense the project.
 
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [Introduction to React Native](https://reactnative.dev/docs/getting-started).
+- Link is here: [**Your Tasks Design**](https://www.figma.com/file/qoJoHiC2TlzZc3MSGCyzpa/Todo-List-App-(Community)?type=design&node-id=0%3A1&mode=design&t=C7gzL8xuTD4JeXyT-1)
 
-# Troubleshooting
+![design](./apps/assets/images/design-yourtasks.png)
 
-If you can't get this to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
+## Conclusion
 
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+This is only the repository to practice the React Native framework, and I hope to help you to get something which is helpful.

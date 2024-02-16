@@ -4,6 +4,7 @@ const color = {
     primaryCyan: '#55847A',
     primaryCyan82: '#70978F',
     primaryCyan44: '#AABFBA',
+    primaryTiger: '#C4863D',
     secondaryHarp: '#EDEDED',
     secondaryNebula: '#D7D7D7',
     secondaryCat: '#3E3E3E',

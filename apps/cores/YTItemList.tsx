@@ -1,4 +1,4 @@
-import { Button, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Swipeable } from "react-native-gesture-handler";
 import themes from "@/commons/themes";
 import { Task } from "@/storages/models";
@@ -57,8 +57,8 @@ export default function YTItemList ({
             renderRightActions={() => (
                 <RightAction
                     isDone={isDone}
-                    onUpdate={() => {onUpdate(data); closeRow(index);}}
-                    onDelete={() => {onDelete(data); closeRow(index);}}
+                    onUpdate={() => {onUpdate(data); row[index].close();}}
+                    onDelete={() => {onDelete(data); row[index].close();}}
                 />
             )}
             onSwipeableOpen={() => closeRow(index)}
@@ -66,19 +66,24 @@ export default function YTItemList ({
             rightThreshold={isDone ? -50 : -100}
             containerStyle={styles.sectionItem}
         >
-            <View style={styles.sectionBody}>
-                {isDone ? (
-                    <View style={[styles.circle,styles.circleDone]} />
-                ) : (
-                    <TouchableOpacity
-                        style={styles.circle}
-                        onPress={() => onTickDone(data)}
-                    />
-                )}
-                <Text style={[
-                    styles.sectionLabel,
-                    isDone ? styles.linethrough : null,
-                ]}>{data.task}</Text>
+            <View style={styles.body}>
+                <View style={styles.sectionBody}>
+                    {isDone ? (
+                        <View style={[styles.circle,styles.circleDone]} />
+                    ) : (
+                        <TouchableOpacity
+                            style={styles.circle}
+                            onPress={() => onTickDone(data)}
+                        />
+                    )}
+                    <Text style={[
+                        styles.sectionLabel,
+                        isDone ? styles.linethrough : null,
+                    ]}>{data.task}</Text>
+                </View>
+                <View style={styles.timeView}>
+                    <Text style={styles.time}>{data.created_at}</Text>
+                </View>
             </View>
         </Swipeable>
     )
@@ -91,6 +96,12 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
 		marginBottom: 12,
 	},
+    body: {
+		backgroundColor: themes.color.light,
+        width: '100%',
+        minHeight: 64,
+        borderRadius: 12,
+    },
     sectionBody: {
         flexDirection: 'row',
 		alignItems: 'center',
@@ -99,7 +110,6 @@ const styles = StyleSheet.create({
         borderRadius: 12,
 		paddingVertical: 8,
 		paddingHorizontal: 12,
-		backgroundColor: themes.color.light,
     },
 	circle: {
 		height: 24,
@@ -113,7 +123,10 @@ const styles = StyleSheet.create({
 	circleDone: {
 		backgroundColor: themes.color.primaryCyan,
 	},
-	sectionLabel: themes.font.normal,
+	sectionLabel: {
+        ...themes.font.normal,
+        color: themes.color.dark,
+    },
 	linethrough: {
 		textDecorationLine: 'line-through'
 	},
@@ -123,6 +136,16 @@ const styles = StyleSheet.create({
         width: 90,
         justifyContent: 'space-between',
         marginLeft: 12,
+    },
+    timeView: {
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+        paddingBottom: 12,
+        paddingRight: 12, 
+    },
+    time: {
+        ...themes.font.normal,
+        color: themes.color.secondaryCat,
     }
 })
 
