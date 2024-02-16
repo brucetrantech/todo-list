@@ -33,3 +33,6 @@
 
 - Setup to launch on Android
     + Set icon app / launch screen.
+
+1. Improve swipe action automate close after clicking the detail action.
+2. Write unit tests with Jest.

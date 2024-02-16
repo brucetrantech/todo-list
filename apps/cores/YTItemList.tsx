@@ -1,4 +1,4 @@
-import { Button, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Swipeable } from "react-native-gesture-handler";
 import themes from "@/commons/themes";
 import { Task } from "@/storages/models";
@@ -57,8 +57,8 @@ export default function YTItemList ({
             renderRightActions={() => (
                 <RightAction
                     isDone={isDone}
-                    onUpdate={() => {onUpdate(data); closeRow(index);}}
-                    onDelete={() => {onDelete(data); closeRow(index);}}
+                    onUpdate={() => {onUpdate(data); row[index].close();}}
+                    onDelete={() => {onDelete(data); row[index].close();}}
                 />
             )}
             onSwipeableOpen={() => closeRow(index)}
