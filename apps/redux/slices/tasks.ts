@@ -72,7 +72,12 @@ export const getTasks = createAsyncThunk(
 const tasks = createSlice({
     name: 'tasks',
     initialState: taskInitialState,
-    reducers: {},
+    reducers: {
+        /* Use sync-action when applying React.Context */
+        setCurrentEmail: (state, action: { payload: string }) => {
+            state.email = action.payload
+        }
+    },
     extraReducers: builder =>
         builder
             .addCase(signIn.pending, (state, action) => {
@@ -134,5 +139,8 @@ const tasks = createSlice({
                 state.action.error = "Set tasks failed!";
             })
 });
+
+/* Apply when using React.Context */
+export const { setCurrentEmail } = tasks.actions;
 
 export default tasks.reducer;

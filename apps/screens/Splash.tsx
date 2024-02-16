@@ -5,8 +5,9 @@ import images from "@/commons/images";
 import screens from "@/commons/screens";
 import themes from "@/commons/themes";
 import { YTLayout } from "@/cores";
-import { useAppDispatch } from "@/redux/hooks";
-import { getCurrentUser } from "@/redux/slices/tasks";
+// import { useAppDispatch } from "@/redux/hooks";
+// import { getCurrentUser } from "@/redux/slices/tasks";
+import { useAuth } from "@/context/AuthContext";
 
 type SplashProps = {
 	navigation: any;
@@ -14,14 +15,26 @@ type SplashProps = {
 
 export default function Splash({ navigation }: SplashProps) {
 
-	const dispatch = useAppDispatch();
+	// const dispatch = useAppDispatch();
 
+	const { isSignedIn } = useAuth();
+
+	/* Applying React.Context */
 	useEffect(() => {
-		dispatch(getCurrentUser()).unwrap().then((res) => {
-			const destScreen = res ? screens.HOME : screens.WELCOME;
-			navigation.navigate(destScreen);
-		})
-	}, [navigation, dispatch])
+		const destScreen = isSignedIn ? screens.HOME : screens.WELCOME;
+		navigation.navigate(destScreen);
+	}, [isSignedIn, navigation])
+
+	/* End - Applying React.Context */
+
+	/* Dispatch here is used to redux-flow */
+	// useEffect(() => {
+	// 	dispatch(getCurrentUser()).unwrap().then((res) => {
+	// 		const destScreen = res ? screens.HOME : screens.WELCOME;
+	// 		navigation.navigate(destScreen);
+	// 	})
+	// }, [navigation, dispatch])
+	/* End: redux-flow */
 
 	return (
 		<YTLayout>
@@ -31,6 +44,7 @@ export default function Splash({ navigation }: SplashProps) {
 			</View>
 		</YTLayout>
 	)
+	
 }
 
 const styles = StyleSheet.create({
