@@ -43,6 +43,13 @@ npm run android
 
 # OR using Yarn
 yarn android
+
+# Open Android Studio, set up device manager and open the simulator to run the demo.
+
+# Open Android Studio, use the real device to run this application directly.
+
+# If the Metro Server and mobile device (both simulator and reality), please run this command to connect the proxy to metro server again:
+adb reverse tcp:8081 tcp:8081
 ```
 
 ### For iOS
@@ -53,6 +60,10 @@ npm run ios
 
 # OR using Yarn
 yarn ios
+
+# Open Xcode and run this application with iOS simulator
+
+# Open Xcode, if you have an Apple account developer, connect with the real device to run this application directly.
 ```
 
 If everything is set up _correctly_, you should see your new app running in your _Android Emulator_ or _iOS Simulator_ shortly provided you have set up your emulator/simulator correctly.
@@ -64,8 +75,9 @@ This is one way to run your app — you can also run it directly from within And
 This project used some main libraries to build the structure from the scratch:
 
 - `React Navigation` (version v6.x): Handle the navigation for all screens.
+- `React.Context`: Apply to solve authentication flow
 - `Redux Toolkit` (version v2.x): Handle the state management in the project.
-- `AsysnStorage`: it is used to save the local data in the user's device. And it is designed as the api with full services: Create / Update / Delete / Retrieve in this project.
+- `AsysnStorage`: it is used to save the local data in the user's device. And it is designed as the api with full services CRUD (Create / Update / Delete / Retrieve) in this project.
 - `Reanimated` (version v3.x) and `Gesture Handler` (version v2.x): it is used to get the simple gesture to swipe the actions (update & delete).
 
 The structure:
@@ -97,6 +109,70 @@ This Figma design is the open source in Figma community, and we could adjust som
 
 ![design](./apps/assets/images/design-yourtasks.png)
 
-## Conclusion
+# Requirements
+
+**YourTasks** followed some below requirements to solve:
+
+✅ Build a simple to-do list application using React Native.
+- Handle 4 UI screens: **Splash**, **Welcome**, **Sign In**, **Home**
+- Set up some components supporting UI as: **themes**, **fonts** and **cores** (for base UI elements).
+- Set up the stack of navigation for all screens.
+
+✅ List items should be stored in Async Storage. Implement the basic CRUD (Create, Read, Update, Delete) operations for list items
+- Set up `Task` model to define the data stored in local device.
+- Set up some services (CRUD) to manage data with `AsyncStorage`
+- At **Home Screen**, we have 2 task collections: `Todo` and `Archived`. We have full actions to manage the tasks here
+
+
+✅ Implement Login screen with AuthContext (using react context), isAuthenticated flag should be stored in context state and Async Storage to keep user logged-in after app reload
+- Set up `React.Context` with `context/AuthContext.tsx` to handle the authentication flow at the **Splash Screen**.
+- Check the logged-in user after reloading or opening with `apis.getCurrentUser()`
+
+# Optionals
+
+✅ Set up **Redux** (`@reduxjs/toolkit` latest version) to process the state management professionally while we have a detail plan for the future.
+
+✅ Set up **Redux Thunk** to process the asynchronous handler, **Redux Logger** to track every actions in the development environment.
+
+✅ Set up **React Native Reanimated v3** and **React Native Gesture Handler** to work simple animation when user want to modify the task (using `Swipable` animation to handle it)
+
+✅ Set up `KeyboardAvoidingView` and `TouchableWithoutFeedback` to handle the keyboard which help to increase the user experience.
+
+# Build and release the application
+
+## 1. For Android
+
+We have available 2 keystores for testing and releasing.
+
+```bash
+# testing
+- android/app/debug.keystore
+
+# Run to build a .APK file for test
+- Open Android Studio
+- Choose and run "Generate Signed Bundle/APK"
+- Choose "AAB" option and click "Next" and run to build.
+
+# production
+- android/app/yourtasks.keystore
+
+# Run to build a .AAB file (Android App Bundle) for production
+- Open Android Studio
+- Choose and run "Generate Signed Bundle/APK"
+- Choose "APK" option and click "Next" and run to build.
+```
+
+## 2. For iOS
+
+Only 1 option for building and releasing, this is what you have to register an account developer from Apple Programs.
+
+- Sign in Xcode with Apple Account
+- Configure this Apple Account profile to the project
+- Choose option: `Any iOS Device (arm64)`
+- Choose `Build` -> `Archive` and run.
+- Sign in to `AppStoreConnect` to create the new project and set up `Testflight` to distribute the testing application
+- Also use `AppStoreConnect` to release the production with the similar flow.
+
+# Conclusion
 
 This is only the repository to practice the React Native framework, and I hope to help you to get something which is helpful.
