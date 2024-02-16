@@ -94,6 +94,8 @@ The structure:
 |---- apps/ # source code is here
       | ---- assets/ # store the assets files as images and fonts
       | ---- commons/ # configure the text-contents, retrieving images, screen names and theme of the project
+      | ---- context/ # include some contexts (handled by React.Context) to use in the project
+            | ---- AuthContext.tsx # Process the authentication flow
       | ---- cores/ # Pure UI components will be created and used from here
       | ---- redux/ # Configure the state management with Redux toolkit
       | ---- screens/ # define all screens using in the project
@@ -139,6 +141,8 @@ This Figma design is the open source in Figma community, and we could adjust som
 ✅ Set up `KeyboardAvoidingView` and `TouchableWithoutFeedback` to handle the keyboard which help to increase the user experience.
 
 # Build and release the application
+
+This project is ready to build for testing and production. In order to handle these tasks, we can process step by steps following the below instructions.
 
 ## 1. For Android
 
