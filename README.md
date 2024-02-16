@@ -5,6 +5,8 @@ This is the small project built by [**React Native**](https://reactnative.dev) u
 
 This mobile apps can be actived on both iOS and Android platforms.
 
+![demo](./apps/assets/images/ios-demo.png)
+
 # Getting Started
 
 >**Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
