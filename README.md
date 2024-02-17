@@ -142,6 +142,8 @@ This Figma design is the open source in Figma community, and we could adjust som
 
 ✅ Set up `KeyboardAvoidingView` and `TouchableWithoutFeedback` to handle the keyboard which help to increase the user experience.
 
+✅ Set up some unit tests with Jest, most test cases is about the snapshot test.
+
 # Build and release the application
 
 This project is ready to build for testing and production. In order to handle these tasks, we can process step by steps following the below instructions.
